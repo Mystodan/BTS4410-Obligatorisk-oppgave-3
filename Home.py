@@ -2,7 +2,7 @@ import os, sys
 from SUCI_util import *
 from cryptography import exceptions
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-
+from deconceal import deconceal
 
 PRIVPW   = bytes("BTS4410 Høsten 2024","utf-8")
 
@@ -43,8 +43,8 @@ if cmd==CMD_DECONCEAL:
     f = open(SUCI_FILE_NAME,"rb")
     raw_suci_data = f.read()
     print("    Loaded: "+SUCI_FILE_NAME+", Length:",len(raw_suci_data))
-    from deconceal import deconceal
-    data, _, _ = deconceal(priv_key, raw_suci_data)
+    
+    data, _, _ = deconceal(priv_key, raw_suci_data) # deconceals the raw SUCI data.
     print(data)
     print("Home: Command completed.")    
     sys.exit(0)
