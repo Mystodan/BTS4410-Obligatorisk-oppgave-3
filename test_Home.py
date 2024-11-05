@@ -9,7 +9,7 @@ DELETE_FOLDER = True # Set to True to delete the test folder after the test.
 
 class TestHome(unittest.TestCase):
     def test_deconceal(self):
-        """Test the deconceal function."""
+        """Test the deconceal() function."""
 
         # Constants  
         SUCI_FILE_NAME = "SUCI_data.bin"

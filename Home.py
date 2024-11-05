@@ -39,13 +39,14 @@ if cmd==CMD_DECONCEAL:
     priv_key = load_private_key(PRIV_PEM, PRIVPW)
     print("    Loaded own private key. Size:",priv_key.key_size)
 
-
+    
     f = open(SUCI_FILE_NAME,"rb")
     raw_suci_data = f.read()
     print("    Loaded: "+SUCI_FILE_NAME+", Length:",len(raw_suci_data))
-    
-    data, _, _ = deconceal(priv_key, raw_suci_data) # deconceals the raw SUCI data.
+    ###### Implemented code for deconcealing the SUCI data.######
+    data, _, _ = deconceal(priv_key, raw_suci_data) 
     print(data)
+    #############################################################
     print("Home: Command completed.")    
     sys.exit(0)
 
