@@ -1,6 +1,12 @@
 from SUCI_util import serialization, ec, key_derivation
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-    
+
+# Constants
+IV_LEN = 16
+HOME_ID_LEN = 64
+USER_PUB_LEN = 180
+CT_LEN = 80
+
 def deserialize_pub_key(serialized_public_key):
         """Deserialize the public key."""
         return serialization.load_pem_public_key(serialized_public_key)
@@ -16,11 +22,26 @@ def remove_padding(bytestr: bytes) -> bytes:
 def deconceal(priv_key: ec.EllipticCurvePrivateKey, raw_suci_data: bytes, path = "./", savefile=True) -> bytes:
     """This function deconceals the SUCI data."""
     # Extracting the IV, Home ID, User ID, and the ciphertext.
-    IV = raw_suci_data[:16]
-    home_ID = (raw_suci_data[16:(home_id_end:=(64+16))])
-    user_serialized_pub_key = raw_suci_data[home_id_end:(sr_pbkey_end:=180+64+16)]
-    ct = raw_suci_data[sr_pbkey_end:]
-    # Creating the AESGCM object in order to remove it from the concealed data.
+    IV = raw_suci_data[
+          # Extracting the IV from RAW SUCI data.
+          :IV_LEN # starts from index 0 to IV_LEN
+          ]
+    home_ID = raw_suci_data[
+          # Extracting the Home ID from RAW SUCI data.
+          IV_LEN:(home_id_end:=(IV_LEN+HOME_ID_LEN)) 
+          #^ starts from IV_LEN to Byte Length of Home ID.
+          ]
+    user_serialized_pub_key = raw_suci_data[
+          # Extracting the User Public Key from RAW SUCI data.
+          home_id_end:(u_sr_pbkey_end:=home_id_end+ USER_PUB_LEN) 
+          #^ starts from Byte Length of Home ID to Byte Length of User Public Key.
+          ]
+    ct = raw_suci_data[
+          # Extracting the ciphertext from RAW SUCI data.
+          u_sr_pbkey_end:(u_sr_pbkey_end+CT_LEN)
+          #^ starts from Byte Length of User Public Key to the end of the RAW SUCI data.
+          ]
+    # Recreating the AESGCM object in order to decrypt it from the concealed data.
     aegcm = AESGCM(key_derivation(priv_key.exchange(ec.ECDH(),deserialize_pub_key(user_serialized_pub_key))))
     aad = IV + home_ID + user_serialized_pub_key # Additional authenticated data.
     
