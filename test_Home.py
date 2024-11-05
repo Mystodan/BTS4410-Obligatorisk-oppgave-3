@@ -5,7 +5,7 @@ from SUCI_util import  load_private_key, ENTITY_NAME_HOME
 from deconceal import deconceal
 from shutil import rmtree
 
-DELETE_FOLDER = True
+DELETE_FOLDER = True # Set to True to delete the test folder after the test.
 
 class TestHome(unittest.TestCase):
     def test_deconceal(self):
@@ -28,7 +28,7 @@ class TestHome(unittest.TestCase):
             # Load the private key.
             priv_key = load_private_key(f"{TEST_DIRECTORY}{folder}/{PRIV_PEM}", PRIVPW)
             # Deconceal the SUCI data.
-            data, home_id, user_id = deconceal(priv_key, raw_suci_data, savefile=False)
+            data, home_id, user_id = deconceal(priv_key, raw_suci_data, savefile=not DELETE_FOLDER, path=f"{TEST_DIRECTORY}{folder}/")
             # Test the deconceal function comparing to their true value.
             with self.subTest(home_id=home_id, user_id=user_id, expected_home_id=ENTITY_NAME_HOME, expected_user_id=ENTITY_NAME_USER):
                 self.assertEqual(home_id, ENTITY_NAME_HOME) # Compare the home ID.
