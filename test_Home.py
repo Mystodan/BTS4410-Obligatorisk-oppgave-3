@@ -22,17 +22,19 @@ class TestHome(unittest.TestCase):
         testfolders = getFolderNames() 
         for folder in testfolders:
             with open(f"{TEST_DIRECTORY}{folder}/{SUCI_FILE_NAME}","rb") as f:
-                raw_suci_data = f.read()
+                raw_suci_data = f.read() # read the raw SUCI data.
                       
             print("Testing folder:",folder)
+            # Load the private key.
             priv_key = load_private_key(f"{TEST_DIRECTORY}{folder}/{PRIV_PEM}", PRIVPW)
+            # Deconceal the SUCI data.
             data, home_id, user_id = deconceal(priv_key, raw_suci_data, savefile=False)
+            # Test the deconceal function comparing to their true value.
             with self.subTest(home_id=home_id, user_id=user_id, expected_home_id=ENTITY_NAME_HOME, expected_user_id=ENTITY_NAME_USER):
-                self.assertEqual(home_id, ENTITY_NAME_HOME)
-                self.assertEqual(user_id, ENTITY_NAME_USER)
-            print()
-            print(f"{data}\n")
-        if DELETE_FOLDER: rmtree(TEST_DIRECTORY)
+                self.assertEqual(home_id, ENTITY_NAME_HOME) # Compare the home ID.
+                self.assertEqual(user_id, ENTITY_NAME_USER) # Compare the user ID.
+            print(f"{data}\n") # Print the SUCI data.
+        if DELETE_FOLDER: rmtree(TEST_DIRECTORY) # Delete the test directory after the test.
 
          
 
