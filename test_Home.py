@@ -16,7 +16,7 @@ class TestHome(unittest.TestCase):
         PRIV_PEM = "ECDH_PRIVATE_KEY.PEM"
         PRIVPW = bytes("BTS4410 Høsten 2024","utf-8")
         ENTITY_NAME_USER = "privacy-sensitive-name ÆØÅ"
-
+        ENTITY_NAME_PROVIDED_USER = "Patryk-Okupski"
         # Extract the test data from zip.
         extractTestDataFromZip(*TEST_SET)
         testfolders = getFolderNames() 
@@ -32,9 +32,13 @@ class TestHome(unittest.TestCase):
             # Test the deconceal function comparing to their true value.
             with self.subTest(home_id=home_id, user_id=user_id, expected_home_id=ENTITY_NAME_HOME, expected_user_id=ENTITY_NAME_USER):
                 self.assertEqual(home_id, ENTITY_NAME_HOME) # Compare the home ID.
-                self.assertEqual(user_id, ENTITY_NAME_USER) # Compare the user ID.
+                if user_id == ENTITY_NAME_USER: # Compare the user ID.
+                    self.assertEqual(user_id, ENTITY_NAME_USER or ENTITY_NAME_PROVIDED_USER ) # Compare the user ID.
+                else:
+                    self.assertEqual(user_id, ENTITY_NAME_PROVIDED_USER)
             print(f"{data}\n") # Print the SUCI data.
         if DELETE_FOLDER: rmtree(TEST_DIRECTORY) # Delete the test directory after the test.
+ 
 
          
 

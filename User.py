@@ -4,7 +4,7 @@ from cryptography import exceptions
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 
-ENTITY_NAME_USER = "privacy-sensitive-name ÆØÅ"
+ENTITY_NAME_USER = "Daniel Hao Huynh"
 
 cmd = cmd_arg([CMD_CONCEAL])
 

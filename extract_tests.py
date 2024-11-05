@@ -8,6 +8,7 @@ TEST_SET=(
     "TEST_SET_0.zip",
     "TEST_SET_1.zip",
     "TEST_SET_2.zip",
+    "Patryk.zip",
     )
 
 TEST_DIRECTORY="./tests/"
