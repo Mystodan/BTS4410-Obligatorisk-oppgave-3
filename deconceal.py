@@ -46,10 +46,13 @@ def deconceal(priv_key: ec.EllipticCurvePrivateKey, raw_suci_data: bytes, path =
     aad = IV + home_ID + user_serialized_pub_key # Additional authenticated data.
     
     # Extracting the Home ID and User ID.
+    ## Removing the padding and slicing the length prefix.
     home_ID = slice_len_prefix(remove_padding(home_ID))
     user_ID = slice_len_prefix(remove_padding(aegcm.decrypt(IV, ct, aad)))
+    ## Decoding the bytes to string.
     home_ID = str(home_ID,"utf-8")
     user_ID = str(user_ID,"utf-8")
+    
     # Decryption of the ciphertext.
     ct = aegcm.decrypt(IV, ct, aad)
     ct = str(ct,"utf-8")
