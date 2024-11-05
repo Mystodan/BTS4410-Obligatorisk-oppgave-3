@@ -1,6 +1,6 @@
 # Home.py
 import unittest
-from extract_tests import getTestData, TEST_SET, TEST_DIRECTORY, getFolderNames
+from extract_tests import extractTestDataFromZip, TEST_SET, TEST_DIRECTORY, getFolderNames
 from SUCI_util import  load_private_key, ENTITY_NAME_HOME
 from deconceal import deconceal
 from shutil import rmtree
@@ -9,12 +9,16 @@ DELETE_FOLDER = True
 
 class TestHome(unittest.TestCase):
     def test_deconceal(self):
-        """Test the deconceal function."""  
+        """Test the deconceal function."""
+
+        # Constants  
         SUCI_FILE_NAME = "SUCI_data.bin"
         PRIV_PEM = "ECDH_PRIVATE_KEY.PEM"
         PRIVPW = bytes("BTS4410 Høsten 2024","utf-8")
         ENTITY_NAME_USER = "privacy-sensitive-name ÆØÅ"
-        getTestData(*TEST_SET)
+
+        # Extract the test data from zip.
+        extractTestDataFromZip(*TEST_SET)
         testfolders = getFolderNames() 
         for folder in testfolders:
             with open(f"{TEST_DIRECTORY}{folder}/{SUCI_FILE_NAME}","rb") as f:

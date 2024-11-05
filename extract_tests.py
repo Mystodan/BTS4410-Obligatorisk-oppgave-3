@@ -13,10 +13,10 @@ TEST_SET=(
 TEST_DIRECTORY="./tests/"
 def getFolderNames() -> list[str]:
     """Return a list of folder names in the test directory."""
-    assert isGen, "Test data not generated."
+    assert isGen, "Test data not generated, use extractTestDataFromZip() to generate the test data."
     return os.listdir(TEST_DIRECTORY)
 
-def getTestData(*args):
+def extractTestDataFromZip(*args):
     """Extract the test data from the zip files."""
     global isGen 
     # Check if the test data is already extracted.
