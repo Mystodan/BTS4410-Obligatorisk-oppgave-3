@@ -20,7 +20,7 @@ def deconceal(priv_key: ec.EllipticCurvePrivateKey, raw_suci_data: bytes, path =
     home_ID = (raw_suci_data[16:(home_id_end:=(64+16))])
     user_serialized_pub_key = raw_suci_data[home_id_end:(sr_pbkey_end:=180+64+16)]
     ct = raw_suci_data[sr_pbkey_end:]
-    # Creating the AESGCM object.
+    # Creating the AESGCM object in order to remove it from the concealed data.
     aegcm = AESGCM(key_derivation(priv_key.exchange(ec.ECDH(),deserialize_pub_key(user_serialized_pub_key))))
     aad = IV + home_ID + user_serialized_pub_key # Additional authenticated data.
     
