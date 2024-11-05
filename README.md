@@ -15,8 +15,19 @@ Dette er min implementasjon av en SUCI funksjonalitet, Deconceal funksjonalitet 
 - ```sh
   pip install -r .\requirements.txt
   ```
-
-
+### Nødvendige flags
+#### Generering av Private og Public key
+```sh
+python Home.py "keygen"
+```
+#### Conceal brukerinformasjon
+```sh
+python User.py "conceal"
+```
+#### Deconceal brukerinformasjon
+```sh
+python Home.py "deconceal"
+```
 ### Test resultater
 [Testfil](https://github.com/Mystodan/BTS4410-Obligatorisk-oppgave-3/blob/main/test_Home.py)
 Alle tester bestått etter Testsett gitt av Geir Køien
